@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+body {
+    font-family: 'Orbitron', sans-serif;
+}
+
+/*--------------Scoreline-------------*/
+/*------------------------------------*/
+.scoreline {
+    height: 110px;
+    background-color: #f0f0f0;
+    border-radius: 25px 25px 0 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    overflow: hidden;
+}
+
+h2 {
+    margin: 10px 0 10px 0;
+}
+
+ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin-bottom: 10px;
+}
+
+li {
+    list-style: none;
+    margin: 0 10px;
+    width: 60px;
+    height: 50px;
+    text-align: center;
+}
+
+li:first-child{
+    width: 130px;
+}
+
+span {
+    display: block;
+}
+
+.stars {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 30px;
+    line-height: 20px;
+}
+
+.stars>.fa{
+    color: #e2ae2b;
+
+}
+
+.modalbtn,.timer,.score ,.moves , .reset {
+    padding: 5px;
+    height: 30px;
+    line-height: 20px;
+    border: 1px solid lightgray;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    text-align: center;
+}
+
+.modalbtn,.reset {
+    cursor: pointer;
+    font-size: 5px;
+}
+
+.play-again {
+    cursor: pointer;
+    padding: 5px;
+    width: 160px;
+    height: 60px;
+    line-height: 50px;
+    border: 1px solid lightgray;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    text-align: center;
+}
+
+.play-again>p {
+    padding: 0;
+    margin:0;
+}
+
+.play-again:hover {
+    background-color: #e2ae2b;
+    color: white;
+    border: #e2ae2b;
+}
+
+.scoreline ,.container {
+    width: 95%;
+    max-width: 600px;
+    margin: 0 auto;
+    -webkit-box-shadow: 0px 22px 42px -5px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 22px 42px -5px rgba(0,0,0,0.75);
+box-shadow: 0px 22px 42px -5px rgba(0,0,0,0.75);
+}
+
+/*-----------------Game---------------*/
+/*------------------------------------*/
+
+.container {
+    height: 75vh;
+    margin: 0 auto;
+    background: -webkit-gradient(linear, left top, right bottom, from(#97E6C7), to(#2A2543));
+    background: linear-gradient(to bottom right, #97E6C7, #2A2543);
+    background-color: #2A2543;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+}
+
+.card {
+    width: calc(25% - 15px);
+    height: calc(25% - 25px);
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+    -webkit-animation: flipback 0.5s;
+            animation: flipback 0.5s;
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+    position: relative;
+}
+
+.card:nth-child(4n+1){
+    margin-left: 10px;
+}
+
+.card:nth-child(4n){
+    margin-right: 10px;
+}
+
+.card:nth-child(-n+4){
+    margin-top: 10px;
+}
+
+.card:nth-child(n+13){
+    margin-bottom: 10px;
+}
+
+.back, .front {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+
+.back {
+    background: #97D6C6;
+    background-size: 50% 50%;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+.front {
+    -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.flipped {
+    background: white;
+    color : #852596;
+    -webkit-animation: flip 0.5s;
+            animation: flip 0.5s;
+    -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+}
+
+.correct ,.wrong {
+    color : white;
+    -webkit-transition: background-color 1s;
+    transition: background-color 1s;
+    cursor: none;
+    pointer-events: none;
+}
+
+.correct {
+    background-color: #29d1a6;
+}
+
+.wrong {
+    background-color: #CA0704;
+}
+
+
+@-webkit-keyframes flip{
+    0% {-webkit-transform: rotateY(0deg);transform: rotateY(0deg);}
+    100% {-webkit-transform: rotateY(180deg);transform: rotateY(180deg);}
+}
+
+
+@keyframes flip{
+    0% {-webkit-transform: rotateY(0deg);transform: rotateY(0deg);}
+    100% {-webkit-transform: rotateY(180deg);transform: rotateY(180deg);}
+}
+
+@-webkit-keyframes flipback{
+    0% {-webkit-transform: rotateY(180deg);transform: rotateY(180deg);}
+    100% {-webkit-transform: rotateY(0deg);transform: rotateY(0deg);}
+}
+
+@keyframes flipback{
+    0% {-webkit-transform: rotateY(180deg);transform: rotateY(180deg);}
+    100% {-webkit-transform: rotateY(0deg);transform: rotateY(0deg);}
+}
+
+/*----------------Modal---------------*/
+/*------------------------------------*/
+
+.overlay{
+    font-size: 1.5em;
+    position: absolute;
+    background-color: white;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 200ms ease-in-out;
+}
+
+.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.overlay.is-open >.modal{
+    transform: translate(0px,0px);
+}
+
+.modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transform: translate(0px,-1000px);
+    transition: all 500ms cubic-bezier(.75,-0.5,0,1.75);
+}
+
+.fa {
+    font-size: 20px;
+}
+
+.fa-trophy{
+    color: #e2ae2b;
+    font-size: 100px;
+}
+
+.fa-warning{
+    color: #EB052F;
+    font-size: 100px;
+}
+
+h3 {
+    margin-bottom: 0;
+}
+
+
+
+
+@media screen and (max-width: 500px) {
+
+    .scoreline {
+        font-size: 0.8em;
+    }
+
+    li {
+        margin: 5px;
+    }
+
+    .stars>.fa {
+        font-size: 10px;
+    }
+
+}

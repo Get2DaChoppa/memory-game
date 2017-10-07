@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Game</title>
+    <meta name="description" content="">
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="game-container">
+        <div class="scoreline">
+            <h2>Memory Game</h2>
+            <ul>
+                <li>
+                    <span>Stars</span>
+                    <div class="stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                </li>
+                <li>
+                    <span>Timer</span>
+                    <div class="timer"></div>
+                </li>
+                <li>
+                    <span>Score</span>
+                    <div class="score"></div>
+                </li>
+                <li>
+                    <span>Moves</span>
+                    <div class="moves"></div>
+                </li>
+                <li>
+                    <span>Reset</span>
+                    <div class="reset">
+                        <i class="fa fa-refresh"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="modal">
+            <i class="fa {{icon}}"></i>
+            <h3>{{msg}}</h3>
+            <h5>You scored {{score}} points.</h5>
+            <div class="play-again">
+                <p>Play Again</p>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
