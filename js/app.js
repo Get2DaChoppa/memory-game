@@ -11,10 +11,12 @@ let moves = 0 ,
     b = "",
     c = 4,
     cardA = "",
-    cardB = "";
+    cardB = "",
+    starUpdate = "";
 
 shuffle(cards);
 movesCounter();
+setTimeout(starCount,1000);
 $(".score").html(score);
 for(let x=0;x<16;x++){
     $(".container").append("<div class="+"card"+"><div class="+"back"+"></div><div class="+"front"+"><i class="+'"fa fa-'+cards[x]+'"'+"></i></div></div>");
@@ -59,13 +61,6 @@ let timer = setInterval(function() {
     }
 },1000);
 
-setTimeout (function(){
-    let starUpdate = setInterval(function() {
-    starMeter();
-    },5000);
-},6000);
-
-
 
 $(".reset").click(function(){
     reset();
@@ -79,11 +74,8 @@ $(".modalbtn").click(function(){
     gameWin();
 });
 
-
-
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
-
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -91,7 +83,6 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
@@ -141,22 +132,24 @@ function removeWrong () {
 
 function gameWin() {
     modal("Congratulations!","fa-trophy");
+    clearInterval(starUpdate);
 }
 
 function gameOver() {
     modal("Try Again!" ,"fa-warning");
+    clearInterval(starUpdate);
 }
 
 function modal(msg , icon) {
-    $(".modal").find("i").addClass(icon);
-    $(".modal").find("h3").text(function(){
-        return $(this).text().replace("{{msg}}", msg);
-    });
-    $(".modal").find("h5").text(function(){
-        return $(this).text().replace("{{score}}", score*stars);
-        });
+    $(".modal").find(".icon").html('<i class="fa '+icon+'"></i>');
+    $(".modal").find("h3").html(msg);
+    $(".modal").find("h5").html("You scored "+score*stars+" points");
     $(".overlay").addClass("is-open");
 }
+
+function starCount(){
+    starUpdate = setInterval(starMeter,5000);
+    }
 
 function starMeter() {
     let star = $(".stars").find("i").eq(c);
@@ -167,6 +160,9 @@ function starMeter() {
         c = c-1;
     }
     stars = stars -0.5;
+    if(stars <= 0){
+        gameOver();
+    }
 }
 
 function movesCounter(){
@@ -185,14 +181,24 @@ function scoreMeter() {
 };
 
 function reset(){
-    openCards = 0;
-    c = 4;
-    seconds = 60;
-    moves = 0;
-    movesCounter();
+    index = [];
+    flippedCards = [];
+    moveTime = [];
+    moves = 0 ;
     score = 0;
-    scoreMeter();
+    seconds = 60;
+    openCards = 0;
+    stars = 5;
+    a = "";
+    b = "";
+    c = 4;
+    cardA = "";
+    cardB = "";
+    setTimeout(starCount,500);
+    clearInterval(starUpdate);
+    movesCounter();
     shuffle(cards);
+    $(".score").html(score);
     for(let x=0 ; x<16 ; x++){
         $(".card").eq(x).removeClass("flipped").removeClass("wrong").removeClass("correct");
     }

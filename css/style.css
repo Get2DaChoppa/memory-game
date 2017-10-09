@@ -74,7 +74,7 @@ span {
 
 }
 
-.modalbtn,.timer,.score ,.moves , .reset {
+.timer,.score ,.moves , .reset {
     padding: 5px;
     height: 30px;
     line-height: 20px;
@@ -84,7 +84,7 @@ span {
     text-align: center;
 }
 
-.modalbtn,.reset {
+.reset {
     cursor: pointer;
     font-size: 5px;
 }
