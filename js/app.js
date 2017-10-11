@@ -1,78 +1,31 @@
 const cards = ["bolt" , "bolt", "anchor", "anchor", "plane", "plane","star","star" , "rocket" , "rocket" , "tree" , "tree" ,"sun-o" , "sun-o" ,"heart","heart"];
 let index = [],
-    flippedCards = [],
-    moveTime = [];
+    flippedCards = [];
 let moves = 0 ,
-    score = 0,
-    seconds = 60,
+    seconds = 0,
     openCards = 0,
-    stars = 5,
+    stars = 3,
     a = "",
     b = "",
-    c = 4,
     cardA = "",
-    cardB = "",
-    starUpdate = "";
+    cardB = "";
 
-shuffle(cards);
-movesCounter();
-setTimeout(starCount,1000);
-$(".score").html(score);
-for(let x=0;x<16;x++){
-    $(".container").append("<div class="+"card"+"><div class="+"back"+"></div><div class="+"front"+"><i class="+'"fa fa-'+cards[x]+'"'+"></i></div></div>");
-}
 
-$(".card").click(function(){
-    let clicked = this;
-    cardIndex = $(this).index();
-    index.push(cardIndex);
-    if(index[0]===index[1]){
-         index.splice(1, 1);
-    }else{
-        flip(clicked);
-        openCard(clicked);
-        if (flippedCards.length === 2) {
-            matchCards();
-            moveTime = [];
-        }
-    }
-    moveTime.push(seconds);
-    moves = moves+1;
-    if(moves===20){
-        starMeter();
-    }else if(moves===30){
-        starMeter();
-    }else if(moves===40){
-        starMeter();
-    }else if(moves===30){
-        starMeter();
-    }
-    movesCounter();
-    if (openCards === 16) {
-        gameWin();
-    }
-});
+gameStarter();
+
 
 let timer = setInterval(function() {
     $(".timer").html(seconds);
-    seconds = seconds-1;
-    if (seconds === 0){
-        gameOver();
-    }
+    seconds = seconds+1;
 },1000);
 
 
-$(".reset").click(function(){
-    reset();
-});
-
-$(".play-again").click(function(){
-    playAgain();
-});
-
-$(".modalbtn").click(function(){
-    gameWin();
-});
+function gameStarter(){
+    shuffle(cards);
+    movesCounter();
+    deckBuilder();
+    clickHandler();
+}
 
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
@@ -84,6 +37,51 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
     return array;
+}
+
+function deckBuilder(){
+    for(let x=0;x<16;x++){
+    $(".container").append("<div class="+"card"+"><div class="+"back"+"></div><div class="+"front"+"><i class="+'"fa fa-'+cards[x]+'"'+"></i></div></div>");
+    }
+    return false;
+}
+
+function clickHandler() {
+    $(".card").click(function(){
+        let clicked = this;
+        cardIndex = $(this).index();
+        index.push(cardIndex);
+        if(index[0]===index[1]){
+             index.splice(1, 1);
+        }else{
+            flip(clicked);
+            openCard(clicked);
+            if (flippedCards.length === 2) {
+                matchCards();
+                moves = moves +1;
+                switch (moves) {
+                    case 16:
+                        starMeter();
+                        break;
+                    case 20:
+                        starMeter();
+                        break;
+                }
+            }
+        }
+        movesCounter();
+        if (openCards === 16) {
+            gameWin();
+        }
+    });
+
+    $(".reset").click(function(){
+    reset();
+    });
+
+    $(".play-again").click(function(){
+        playAgain();
+    });
 }
 
 function flip(clicked){
@@ -104,13 +102,11 @@ function matchCards(){
         cardA.addClass("correct");
         cardB.addClass("correct");
         openCards = openCards + 2;
-        scoreMeter();
-        moveTime.push(seconds);
     }else{
         cardA.css({'background-color':''}).addClass("wrong");
         cardB.css("backgroundColor","").addClass("wrong");
-        setTimeout(removeFlip, 800);
-        setTimeout(removeWrong, 900);
+        setTimeout(function(){cardClassRemover("flipped")}, 800);
+        setTimeout(function(){cardClassRemover("wrong")}, 900);
     }
         reflipCards();
 }
@@ -120,90 +116,57 @@ function reflipCards (){
     flippedCards = [];
 }
 
-function removeFlip (){
-    cardA.removeClass("flipped");
-    cardB.removeClass("flipped");
-}
-
-function removeWrong () {
-    cardA.removeClass("wrong");
-    cardB.removeClass("wrong");
+function cardClassRemover (name){
+    cardA.removeClass(name);
+    cardB.removeClass(name);
 }
 
 function gameWin() {
     modal("Congratulations!","fa-trophy");
-    clearInterval(starUpdate);
-}
-
-function gameOver() {
-    modal("Try Again!" ,"fa-warning");
-    clearInterval(starUpdate);
 }
 
 function modal(msg , icon) {
     $(".modal").find(".icon").html('<i class="fa '+icon+'"></i>');
     $(".modal").find("h3").html(msg);
-    $(".modal").find("h5").html("You scored "+score*stars+" points");
+    $(".modal").find(".stars").html("");
+    for(let z=1;z<=stars;z++){
+        $(".modal").find(".stars").append('<i class="fa fa-star"></i>');
+    }
+    $(".modal").find("h5").html("You won with "+moves+" moves </br> in "+seconds+" seconds!");
     $(".overlay").addClass("is-open");
 }
 
-function starCount(){
-    starUpdate = setInterval(starMeter,5000);
-    }
-
 function starMeter() {
-    let star = $(".stars").find("i").eq(c);
-    if (star.attr("class") === "fa fa-star"){
-        star.removeClass("fa-star").addClass("fa-star-half-full");
-    }else if (star.attr("class") === "fa fa-star-half-full"){
-        star.removeClass("fa-star-half-full").addClass("fa-star-o");
-        c = c-1;
+    if(stars > 1){
+        let star = $(".stars").find("i").eq(stars-1);
+        star.removeClass("fa-star").addClass("fa-star-o");
     }
-    stars = stars -0.5;
-    if(stars <= 0){
-        gameOver();
-    }
+    stars = stars - 1;
 }
+
 
 function movesCounter(){
     $(".moves").html(moves);
 }
 
-function scoreMeter() {
-        let prev = moveTime[0];
-        let next = seconds;
-        if (prev-next === 0) {
-            score = Math.round(score + 100);
-        }else{
-            score = Math.round(score + 50/(prev-next));
-        }
-        $(".score").html(score);
-};
-
 function reset(){
     index = [];
     flippedCards = [];
-    moveTime = [];
     moves = 0 ;
-    score = 0;
-    seconds = 60;
+    seconds = 0;
     openCards = 0;
-    stars = 5;
+    stars = 3;
     a = "";
     b = "";
-    c = 4;
     cardA = "";
     cardB = "";
-    setTimeout(starCount,500);
-    clearInterval(starUpdate);
-    movesCounter();
-    shuffle(cards);
-    $(".score").html(score);
+    $(".container").html("");
+    gameStarter()
     for(let x=0 ; x<16 ; x++){
         $(".card").eq(x).removeClass("flipped").removeClass("wrong").removeClass("correct");
     }
-    for(let z=0 ; z<5 ; z++){
-        $(".stars").find("i").eq(z).removeClass("fa-star-half-full").removeClass("fa-star-o").addClass("fa-star");
+    for(let z=0 ; z<3 ; z++){
+        $(".stars").find("i").eq(z).removeClass("fa-star-o").addClass("fa-star");
     }
 }
 
