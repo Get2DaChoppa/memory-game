@@ -1,3 +1,9 @@
+/**
+ * https://github.com/Get2DaChoppa/memory-game
+ * JavaScript memory game
+ * @author Sotiris Bimpas
+*/
+
 const cards = ["bolt" , "bolt", "anchor", "anchor", "plane", "plane","star","star" , "rocket" , "rocket" , "tree" , "tree" ,"sun-o" , "sun-o" ,"heart","heart"];
 let index = [],
     flippedCards = [];
@@ -13,13 +19,14 @@ let moves = 0 ,
 
 gameStarter();
 
-
+// Sets the game timer
 let timer = setInterval(function() {
     $(".timer").html(seconds);
     seconds = seconds+1;
 },1000);
 
 
+// Starts the game
 function gameStarter(){
     shuffle(cards);
     movesCounter();
@@ -27,6 +34,7 @@ function gameStarter(){
     clickHandler();
 }
 
+// Shuffles the deck in every new game
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
     while (currentIndex !== 0) {
@@ -39,6 +47,7 @@ function shuffle(array) {
     return array;
 }
 
+// Creates the cards
 function deckBuilder(){
     for(let x=0;x<16;x++){
     $(".container").append("<div class="+"card"+"><div class="+"back"+"></div><div class="+"front"+"><i class="+'"fa fa-'+cards[x]+'"'+"></i></div></div>");
@@ -46,7 +55,9 @@ function deckBuilder(){
     return false;
 }
 
+// Handles all the possible click events in the game
 function clickHandler() {
+    // Card click handler
     $(".card").click(function(){
         let clicked = this;
         cardIndex = $(this).index();
@@ -75,24 +86,29 @@ function clickHandler() {
         }
     });
 
+    // Reset button click handler
     $(".reset").click(function(){
     reset();
     });
 
+    // Play again button click handler
     $(".play-again").click(function(){
         playAgain();
     });
 }
 
+// Flips the card when clicked
 function flip(clicked){
     $(clicked).addClass("flipped");
 }
 
+// Stores all matched cards
 function openCard(clicked){
     card = $(clicked).find("i");
     flippedCards.push(card);
 }
 
+// Compares the last two flipped cards
 function matchCards(){
     a = index[0];
     b = index[1];
@@ -111,20 +127,26 @@ function matchCards(){
         reflipCards();
 }
 
+// CLears the opened cards array and their indexes
 function reflipCards (){
     index = [];
     flippedCards = [];
 }
 
+// Removes a clss from the two last opened cards
 function cardClassRemover (name){
     cardA.removeClass(name);
     cardB.removeClass(name);
 }
 
+// Calls a modal with a winning message
 function gameWin() {
     modal("Congratulations!","fa-trophy");
 }
 
+// Creates a modal
+// msg represents the modal's header message
+// icon is a font awesome class
 function modal(msg , icon) {
     $(".modal").find(".icon").html('<i class="fa '+icon+'"></i>');
     $(".modal").find("h3").html(msg);
@@ -136,6 +158,7 @@ function modal(msg , icon) {
     $(".overlay").addClass("is-open");
 }
 
+// Removes a star
 function starMeter() {
     if(stars > 1){
         let star = $(".stars").find("i").eq(stars-1);
@@ -144,11 +167,12 @@ function starMeter() {
     stars = stars - 1;
 }
 
-
+// Updates the moves played number
 function movesCounter(){
     $(".moves").html(moves);
 }
 
+// Resets and restarts  the game
 function reset(){
     index = [];
     flippedCards = [];
@@ -170,6 +194,7 @@ function reset(){
     }
 }
 
+// Starts a new game when the previous is over
 function playAgain(){
     reset();
     $(".overlay").removeClass("is-open");
