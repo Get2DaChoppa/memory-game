@@ -1,7 +1,7 @@
 # memory-game
 
 A clone of the classic card memory game.
-[Play now](https://get2dachoppa.github.io/memory-game/)
+[Play now](https://sotirisbimpas.github.io/memory-game/)
 
 ## Known issues 
 
